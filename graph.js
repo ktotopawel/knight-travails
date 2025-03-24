@@ -18,16 +18,17 @@ export default class DirGraph {
     this.AdjList.get(src).push(dest);
   }
 
+  //gets distance of target vertex from the src vertex || returns -1 if there is no connection from src to dest
   depth(sourceVertex, targetVertex) {
+    if (!this.AdjList.has(sourceVertex) || !this.AdjList.has(targetVertex))
+      throw new Error("invalid source/destination");
     const queue = new Queue();
     queue.enqueue({ vertex: sourceVertex, depth: 0 });
-    const visited = new Set();
-    visited.add(sourceVertex);
 
     while (queue.head) {
       const { vertex, depth } = queue.dequeue();
 
-      if (vertex === targetVertex) return depth;
+      if (JSON.stringify(vertex) === JSON.stringify(targetVertex)) return depth;
 
       const children = this.AdjList.get(vertex);
 
@@ -35,6 +36,8 @@ export default class DirGraph {
         queue.enqueue({ vertex: child, depth: depth + 1 });
       }
     }
+
+    return -1;
   }
 
   printGraph() {
@@ -43,11 +46,12 @@ export default class DirGraph {
     for (const vertex of vertices) {
       const edges = this.AdjList.get(vertex);
 
-      console.log(JSON.stringify(vertex), " -> ", JSON.stringify(edges));
+      console.log(vertex, " -> ", JSON.stringify(edges));
     }
   }
 }
 
+//creates a Proxy that ensures all stored keys are strings
 function createMapProxy() {
   const target = new Map();
 

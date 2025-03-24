@@ -65,3 +65,4 @@ const test = new GameController();
 
 const testTree = test.buildTree([0, 0], [4, 3]);
 testTree.printGraph();
+console.log(testTree.depth([4, 3], [0, 0]));
