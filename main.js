@@ -47,13 +47,13 @@ class GameController {
     const [x, y] = position;
     const possibleMoves = [
       [x - 1, y + 2],
-      [x + 1, y + 2],
       [x - 1, y - 2],
+      [x + 1, y + 2],
       [x + 1, y - 2],
+      [x - 2, y + 1],
+      [x - 2, y - 1],
       [x + 2, y + 1],
       [x + 2, y - 1],
-      [x - 2, y + 1],
-      [x - 2, y + 1],
     ];
     const validMoves = [];
 
@@ -73,3 +73,6 @@ class GameController {
 const test = new GameController();
 
 test.knightMoves([0, 0], [4, 3]);
+test.knightMoves([3, 3], [4, 3]);
+test.knightMoves([7, 1], [4, 3]);
+test.knightMoves([0, 0], [7, 7]);
