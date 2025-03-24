@@ -3,7 +3,17 @@ import Queue from "./queue.js";
 
 class GameController {
   knightMoves(startPos, targetPos) {
-    this.buildTree(startPos, targetPos);
+    const tree = this.buildTree(startPos, targetPos);
+    const { depth, path } = tree.shortestPath(startPos, targetPos);
+    this.printResults(depth, path);
+  }
+
+  printResults(depth, path) {
+    console.log(`The knight made it! it took him ${depth} moves.`);
+    console.log(`The path the knight had to take: `);
+    for (const step of path) {
+      console.log(step);
+    }
   }
 
   buildTree(startPos, targetPos) {
@@ -21,7 +31,6 @@ class GameController {
       tree.addVertex(currentPos);
 
       if (JSON.stringify(currentPos) === JSON.stringify(targetPos)) {
-        console.log("found it!");
         return tree;
       }
 
@@ -63,6 +72,4 @@ class GameController {
 
 const test = new GameController();
 
-const testTree = test.buildTree([0, 0], [4, 3]);
-testTree.printGraph();
-console.log(testTree.shortestPath([0, 0], [4, 3]));
+test.knightMoves([0, 0], [4, 3]);

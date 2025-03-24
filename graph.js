@@ -32,7 +32,6 @@ export default class DirGraph {
         const pathArr = [];
         let currentNode = node;
         while (currentNode) {
-          // console.log("current node:", currentNode);
           pathArr.push(currentNode.vertex);
           currentNode = currentNode.parent;
         }
