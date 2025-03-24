@@ -1,3 +1,4 @@
+import DirGraph from "./graph.js";
 import Queue from "./queue.js";
 
 class GameController {
@@ -6,10 +7,10 @@ class GameController {
   }
 
   buildTree(startPos, targetPos) {
+    const tree = new DirGraph();
     const queue = new Queue();
     queue.enqueue(startPos);
     const visited = new Set();
-    const parentNode = startPos;
 
     while (queue.head) {
       const currentPos = queue.dequeue();
@@ -18,15 +19,19 @@ class GameController {
 
       visited.add(JSON.stringify(currentPos));
       console.log(currentPos);
+      tree.addVertex(currentPos);
 
       if (JSON.stringify(currentPos) === JSON.stringify(targetPos)) {
         console.log("found it!");
-        return;
+        return tree;
       }
 
       const possibleMoves = this.findPossibleMoves(currentPos);
 
-      possibleMoves.forEach((move) => queue.enqueue(move));
+      possibleMoves.forEach((move) => {
+        tree.addEdge(currentPos, move);
+        queue.enqueue(move);
+      });
     }
   }
 
@@ -59,4 +64,5 @@ class GameController {
 
 const test = new GameController();
 
-test.knightMoves([0, 0], [4, 3]);
+const testTree = test.buildTree([0, 0], [4, 3]);
+testTree.printGraph();

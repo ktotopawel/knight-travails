@@ -45,7 +45,7 @@ export default class DirGraph {
     for (const vertex of vertices) {
       const edges = this.AdjList.get(vertex);
 
-      console.log(vertex + "->" + edges);
+      console.log(JSON.stringify(vertex), " -> ", JSON.stringify(edges));
     }
   }
 }
