@@ -18,7 +18,6 @@ class GameController {
       if (visited.has(JSON.stringify(currentPos))) continue;
 
       visited.add(JSON.stringify(currentPos));
-      console.log(currentPos);
       tree.addVertex(currentPos);
 
       if (JSON.stringify(currentPos) === JSON.stringify(targetPos)) {
