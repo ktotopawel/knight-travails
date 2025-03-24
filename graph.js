@@ -18,26 +18,39 @@ export default class DirGraph {
     this.AdjList.get(src).push(dest);
   }
 
-  //gets distance of target vertex from the src vertex || returns -1 if there is no connection from src to dest
-  depth(sourceVertex, targetVertex) {
-    if (!this.AdjList.has(sourceVertex) || !this.AdjList.has(targetVertex))
+  //given src and dest as arguments returns an object containing the amount of moves and the path
+  shortestPath(src, dest) {
+    if (!this.AdjList.has(src) || !this.AdjList.has(dest))
       throw new Error("invalid source/destination");
     const queue = new Queue();
-    queue.enqueue({ vertex: sourceVertex, depth: 0 });
+    queue.enqueue({ vertex: src, depth: 0, parent: null });
 
     while (queue.head) {
-      const { vertex, depth } = queue.dequeue();
+      const node = queue.dequeue();
 
-      if (JSON.stringify(vertex) === JSON.stringify(targetVertex)) return depth;
+      if (JSON.stringify(node.vertex) === JSON.stringify(dest)) {
+        const pathArr = [];
+        let currentNode = node;
+        while (currentNode) {
+          // console.log("current node:", currentNode);
+          pathArr.push(currentNode.vertex);
+          currentNode = currentNode.parent;
+        }
+        return { depth: node.depth, path: pathArr.reverse() };
+      }
 
-      const children = this.AdjList.get(vertex);
+      const children = this.AdjList.get(node.vertex);
 
       for (const child of children) {
-        queue.enqueue({ vertex: child, depth: depth + 1 });
+        queue.enqueue({
+          vertex: child,
+          depth: node.depth + 1,
+          parent: node,
+        });
       }
     }
 
-    return -1;
+    return new Error("No path from src to dest");
   }
 
   printGraph() {
